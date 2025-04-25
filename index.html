@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      background-color: #fceff9;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      margin-top: 20px;
+      color: #333;
+    }
+
+    .card {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      background: #ffe3ed;
+      margin-bottom: 20px;
+      border-radius: 20px;
+      padding: 15px;
+    }
+
+    .card:hover {
+      background: #c9eff5;
+    }
+
+    .submit_form {
+      background: #ffe0f0;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-default {
+      background-color: #f4a6c8;
+      color: white;
+    }
+
+    .btn-default:hover {
+      background-color: #f0609d;
+      color: white;
+    }
+
+    .glyphicon-trash {
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="container-fluid">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-info">
+        <strong>{{ message }}</strong>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h1><i>__TODO LIST__</i></h1>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- TODO List -->
+    <div class="col-md-8">
+      {% for i in list %}
+        <div class="card">
+          <h4 class="text-center"><strong>{{ i.title }}</strong></h4>
+          <hr/>
+          <p><strong>Date:</strong> {{ i.date }}</p>
+          <p>{{ i.details }}</p>
+          <form action="/del/{{ i.id }}" method="POST" class="text-right">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-default">
+              <span class="glyphicon glyphicon-trash"></span> Remove
+            </button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- TODO Form -->
+    <div class="col-md-4">
+      <div class="submit_form">
+        <form method="POST">
+          {% csrf_token %}
+          {{ forms }}
+          <div class="text-center" style="margin-top: 10px;">
+            <input type="submit" class="btn btn-default" value="Submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
